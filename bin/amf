@@ -1,0 +1,3 @@
+#!/bin/sh
+
+java -jar "${AMF_JAR_PATH}" "$@"

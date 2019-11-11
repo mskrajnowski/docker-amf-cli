@@ -1,0 +1,87 @@
+#%RAML 1.0
+
+# Example from https://www.baeldung.com/raml-restful-api-modeling-language-tutorial
+
+title: Baeldung Foo REST Services API
+version: v1
+protocols: [ HTTPS ]
+baseUri: http://rest-api.baeldung.com/api/{version}
+mediaType: application/json
+
+types:
+  Foo:   !include types/Foo.raml
+  Error: !include types/Error.raml
+/foos:
+  get:
+    description: List all Foos matching query criteria, if provided;
+                 otherwise list all Foos
+    queryParameters:
+      name?: string
+      ownerName?: string
+    responses:
+      200:
+        body:
+          application/json:
+            type: Foo[]
+            example: !include examples/Foos.json
+  post:
+    description: Create a new Foo
+    body:
+      application/json:
+        type: Foo
+        example: !include examples/Foo.json
+    responses:
+      201:
+        body:
+          application/json:
+            type: Foo
+            example: !include examples/Foo.json
+  /{id}:
+    get:
+      description: Get a Foo by id
+      responses:
+        200:
+          body:
+            application/json:
+              type: Foo
+              example: !include examples/Foo.json
+        404:
+          body:
+            application/json:
+              type: Error
+              example: !include examples/Error.json
+    put:
+      description: Update a Foo by id
+      body:
+        application/json:
+          type: Foo
+          example: !include examples/Foo.json
+      responses:
+        200:
+          body:
+            application/json:
+              type: Foo
+              example: !include examples/Foo.json
+        404:
+          body:
+            application/json:
+              type: Error
+              example: !include examples/Error.json
+    delete:
+      description: Delete a Foo by id
+      responses:
+        204:
+        404:
+          body:
+            application/json:
+              type: Error
+              example: !include examples/Error.json
+  /name/{name}:
+    get:
+      description: List all Foos with a certain name
+      responses:
+        200:
+          body:
+            application/json:
+              type: Foo[]
+              example: !include examples/Foos.json
